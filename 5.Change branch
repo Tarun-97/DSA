@@ -1,0 +1,110 @@
+// Program to manage a list of students using a singly linked list (SLL)
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+struct SLL {
+int usn;
+char name[25];
+char node[25];
+struct SLL *next;
+};
+struct SLL *start = NULL;
+// Function to create a new node
+struct SLL *createNode() {
+struct SLL *newnode;
+newnode = (struct SLL *) malloc(sizeof(struct SLL));
+printf("Enter the USN: ");
+scanf("%d", &newnode->usn);
+printf("Enter the name: ");
+scanf("%s", newnode->name);
+printf("Enter the mode (regular/external/COE/COB/COC): ");
+scanf("%s", newnode->node);
+newnode->next = NULL;
+return newnode;
+}
+// Function to insert a node at the end of the list
+void insert_end() {
+struct SLL *newnode, *temp;
+newnode = createNode();
+if (start == NULL) {
+start = newnode;
+} else {
+temp = start;
+while (temp->next != NULL) {
+temp = temp->next;
+}
+temp->next = newnode;
+}
+}
+// Function to display the list
+void display() {
+struct SLL *temp;
+temp = start;
+if (temp == NULL) {
+printf("List is empty\n");
+} else {
+printf("Students in the class are:\n");
+while (temp != NULL) {
+printf("USN: %d, NAME: %s, MODE: %s\n", temp->usn, temp->name, temp->node);
+temp = temp->next;
+}
+}
+}
+// Function to delete a node based on USN
+void delete_node() {
+struct SLL *temp, *prev;
+int key;
+if (start == NULL) {
+printf("List is empty, cannot delete!\n");
+} else {
+printf("Enter the USN to be deleted: ");
+scanf("%d", &key);
+temp = start;
+if (temp->usn == key) {
+start = temp->next;
+printf("Deleted USN: %d\n", temp->usn);
+free(temp);
+} else {
+while (temp != NULL && temp->usn != key) {
+prev = temp;
+temp = temp->next;
+}
+if (temp == NULL) {
+printf("USN not found\n");
+} else {
+prev->next = temp->next;
+printf("Deleted USN: %d\n", temp->usn);
+free(temp);
+}
+}
+}
+}
+// Main function
+int main() {
+int choice;
+while (1) {
+printf("\nEnter your choice:\n");
+printf("1. Insert\n");
+printf("2. Display\n");
+printf("3. Delete student based on USN\n");
+printf("4. Exit\n");
+scanf("%d", &choice);
+switch (choice) {
+case 1:
+insert_end();
+break;
+case 2:
+display();
+break;
+case 3:
+delete_node();
+break;
+case 4:
+exit(0);
+default:
+printf("Invalid choice\n");
+break;
+}
+}
+return 0;
+}
