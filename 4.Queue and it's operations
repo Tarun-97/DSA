@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+int rear = -1, front = 0, *q, count = 0, max;
+void enqueue() {
+int ele;
+if (count == max) {
+printf("Overflow error\n");
+} else {
+printf("Enter element to be inserted: ");
+scanf("%d", &ele);
+rear = (rear + 1) % max;
+q[rear] = ele;
+count++;
+}
+}
+void dequeue() {
+int ele;
+if (count == 0) {
+printf("Underflow error\n");
+} else {
+ele = q[front];
+front = (front + 1) % max;
+count--;
+printf("Deleted element is: %d\n", ele);
+}
+}
+void display() {
+int i, k;
+if (count == 0) {
+printf("Queue is empty\n");
+} else {
+k = front;
+for (i = 0; i < count; i++) {
+printf("%d\n", q[k]);
+k = (k + 1) % max;
+}
+}
+}
+void main() {
+int choice, ele;
+printf("Enter size: ");
+scanf("%d", &max);
+q = (int *) malloc(max * sizeof(int));
+while (1) {
+printf("Enter your choice:\n");
+printf("1: Enqueue 2: Dequeue 3: Display 4: Exit\n");
+scanf("%d", &choice);
+switch (choice) {
+case 1:
+enqueue();
+break;
+case 2:
+dequeue();
+break;
+case 3:
+display();
+break;
+case 4:
+free(q);
+exit(0);
+default:
+printf("Invalid choice\n");
+}
+}
+}
